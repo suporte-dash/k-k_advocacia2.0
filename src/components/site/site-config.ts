@@ -7,4 +7,5 @@ export const GOOGLE_MAPS_URL = "https://maps.app.goo.gl/nYM61PbWSiUUTxLa6";
 export const BRAND_LOGO = `${import.meta.env.BASE_URL}assets/logo-oficial.png`;
 export const INSTAGRAM_AVATAR = `${import.meta.env.BASE_URL}assets/instagram-avatar.png`;
 export const ASSET_BASE = `${import.meta.env.BASE_URL}assets/`;
-
+export const WEB3FORMS_ACCESS_KEY = "4dc03ab1-d0e9-4047-bd34-dd10226115f3";
+export const CONTACT_EMAIL = "sandreodeivith@gmail.com";

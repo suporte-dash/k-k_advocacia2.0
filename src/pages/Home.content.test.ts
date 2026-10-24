@@ -11,7 +11,8 @@ describe("conteúdo institucional da página inicial", () => {
 
   it("mantém caminhos de contato e a numeração editorial completa das seções", () => {
     expect(homeSource).toContain("Atendimento inicial pelo WhatsApp");
-    expect(homeSource).toContain("WhatsApp e telefone:");
+    expect(homeSource).toContain("WhatsApp e telefone");
+    expect(homeSource).not.toContain("hero-contact-note");
     expect(homeSource).toContain('<SectionMarker number="01" label="Presença em números" />');
     expect(homeSource).toContain('<SectionMarker number="02" label="Quem somos" />');
     expect(homeSource).toContain('<SectionMarker number="03" label="Área de atuação" />');
@@ -36,10 +37,14 @@ describe("conteúdo institucional da página inicial", () => {
   });
 
   it("assegura a escrita refinada de alta autoridade sem ecos ou redundâncias", () => {
-    expect(homeSource).toContain("Orientação jurídica especializada, linguagem acessível e rigor técnico para proteger o seu benefício");
+    expect(homeSource).toContain("Orientação jurídica especializada, linguagem acessível e rigor técnico na defesa do seu benefício perante o INSS e a Justiça Federal");
     expect(homeSource).toContain("Atenção humana e minuciosa a cada detalhe do histórico contributivo e dos documentos de cada segurado");
     expect(homeSource).toContain("Consultar meu direito neste benefício");
     expect(homeSource).toContain("Uma advocacia construída para <em>humanizar</em> o direito previdenciário");
+    expect(homeSource).toContain('title: "BPC / LOAS"');
+    expect(homeSource).not.toContain("Outros serviços jurídicos");
+    expect(homeSource).toContain('<p className="eyebrow">Advocacia Previdenciária · Salinópolis &amp; Brasil</p>');
+    expect(homeSource).not.toContain("Advocacia previdenciária · SALINÓPOLIS - PA");
   });
 
   it("integra o drawer de detalhes e requisitos nos cards de atuação diretamente na página", () => {
@@ -63,8 +68,8 @@ describe("conteúdo institucional da página inicial", () => {
   it("apresenta a Seção 04 de Advogadas com selos de OAB, tags de atuação e CTA de atendimento direto", () => {
     expect(homeSource).toContain("team-portrait-column");
     expect(homeSource).toContain("team-portrait-frame");
-    expect(homeSource).toContain("Retrato Institucional das Sócias");
-    expect(homeSource).toContain("Sede Salinópolis / PA");
+    expect(homeSource).not.toContain("team-portrait-caption");
+    expect(homeSource).not.toContain("Retrato Institucional das Sócias");
     expect(homeSource).not.toContain("team-portrait-badge");
     expect(homeSource).toContain("team-profile-card");
     expect(homeSource).toContain("OAB/PA 40.209");
@@ -80,11 +85,35 @@ describe("conteúdo institucional da página inicial", () => {
     expect(homeSource).toContain("faq-question-text");
     expect(homeSource).toContain("faq-answer-text");
     expect(homeSource).toContain("faq-no-results-cta");
-    expect(homeSource).toContain("Aposentadorias & Transição");
-    expect(homeSource).toContain("Seguro-defeso & Rural");
-    expect(homeSource).toContain("Incapacidade & BPC/LOAS");
+    expect(homeSource).toContain('label: "Aposentadorias"');
+    expect(homeSource).toContain("Seguro-Defeso & Rural");
+    expect(homeSource).toContain("Incapacidade & BPC");
     expect(homeSource).toContain("Negativas & Atendimento");
     expect(homeSource).toContain("Tirar dúvida sobre este tema");
+  });
+
+  it("apresenta recursos de UX/UI avançados: foco em Google Maps, balão flutuante e destaque regional", () => {
+    expect(homeSource).not.toContain("hero-presence-badge");
+    expect(homeSource).not.toContain("hero-presence-dot");
+    expect(homeSource).toContain("Pesca Artesanal");
+    expect(homeSource).not.toContain("waze-action-link");
+    expect(homeSource).not.toContain("waze.com/ul");
+    expect(homeSource).toContain("map-action-link");
+    expect(homeSource).toContain("whatsapp-float-greeting");
+    expect(homeSource).toContain("Dúvidas sobre o seu benefício?");
+    expect(homeSource).toContain("faq-search-highlight");
+    expect(homeSource).toContain("hero-trust-item");
+    expect(homeSource).toContain("Atendimento Dedicado");
+    expect(homeSource).toContain("Atuação Previdenciária Nacional");
+  });
+
+  it("apresenta assinatura tipográfica minimalista com micro-linha dourada no hero", () => {
+    expect(homeSource).toContain("hero-signature-wrap");
+    expect(homeSource).toContain("hero-signature-name");
+    expect(homeSource).toContain("hero-signature-line");
+    expect(homeSource).not.toContain("hero-editorial-caption");
+    expect(homeSource).not.toContain("hero-slide-glass");
+    expect(homeSource).not.toContain("hero-image-caption");
   });
 });
 

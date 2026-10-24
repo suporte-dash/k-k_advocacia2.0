@@ -742,15 +742,17 @@ export default function ServicosPrevidenciarios() {
                         <br />
                         Salinópolis — PA, 68721-000
                       </address>
-                      <a
-                        href={GOOGLE_MAPS_URL}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="map-action-link"
-                      >
-                        <span>Abrir no Google Maps</span>
-                        <ArrowUpRight size={14} aria-hidden="true" />
-                      </a>
+                      <div className="location-action-pills">
+                        <a
+                          href={GOOGLE_MAPS_URL}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="map-action-link"
+                        >
+                          <span>Google Maps</span>
+                          <ArrowUpRight size={14} aria-hidden="true" />
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>

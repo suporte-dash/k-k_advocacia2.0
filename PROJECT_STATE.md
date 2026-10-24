@@ -1,18 +1,452 @@
 # PROJECT_STATE — Karlla Pinheiro & Keyteler Leite Advogadas
 
 ## 📌 Onde parámos
-- **Correção de Alto Contraste do Número e Marcador Editorial da Seção 05 (Perguntas Frequentes)**:
-  - **Identificação da Causa-Raiz**:
-    - A Seção 05 (`#faq`) adota fundo Vinho Nobre profundo (`section-wine faq-section`).
-    - Uma regra herdada em `.faq-section .section-marker-light .marker-number` forçava o número `05` para a cor `var(--wine-deep)` (`#42141e`). Com isso, o número ficava em vinho escuro sobre fundo vinho escuro (contraste de apenas ~1.2:1), tornando-se praticamente imperceptível.
-  - **Resolução de Alta Precisão Tipográfica**:
-    - Atualizadas as regras de `.section-wine .section-marker-light .marker-number` e `.section-wine.faq-section .marker-number` para **`var(--gold-light)` (`#e2bd89`)**, atingindo contraste superior a 7.5:1 (índice WCAG AAA).
-    - O rótulo *"PERGUNTAS FREQUENTES"* e o filete divisor também foram calibrados para o mesmo ouro champanhe luminoso, criando perfeita harmonia com os números das perguntas (`01`, `02`, `03`...) e com o kicker superior.
+- **Criação & Configuração Global do Agente LS Critical**:
+  - **Definição de Subagente (`define_subagent`)**: Registrado `agente_ls_critical` com autonomia total, ferramentas de escrita/execução, MCP e subagentes.
+  - **Regra de Projeto (`.agents/rules/agente-ls-critical.md`)**: Configurado no repositório com prioridade P0 e trigger always-on.
+  - **Regra Global da Máquina (`~/.gemini/config/rules/agente-ls-critical.md`)**: Injetada no ecossistema global do Antigravity, fazendo com que qualquer novo projeto aberto no sistema carregue automaticamente o Agente LS Critical com as 6 skills fundamentais e postura consultiva sênior.
+
+- **Eliminação da Borda Vertical Residual no Mobile da Seção 01 (`src/index.css`)**:
+  - **Simetria Perfeita nos Cards Empilhados**:
+    - Neutralizada a borda vertical herdada do desktop nos cards 1 e 2 no mobile (`<= 768px`): declarado `border-right: none !important;` tanto para `.proof-card` quanto para `.proof-card:not(:last-child)`.
+    - Atualizada tanto na media query principal quanto na regra de compactação mobile do final do arquivo.
+    - Preservadas unicamente as divisórias horizontais suaves (`border-bottom: 1px solid rgba(163, 126, 75, 0.18)`), eliminando o desnível assimétrico nos smartphones.
   - **Qualidade & Blindagem por Testes**:
-    - **22/22 testes aprovados** no Vitest.
+    - **24/24 testes aprovados** no Vitest (`pnpm test`).
+    - TypeScript 100% verificado sem erros (`tsc --noEmit`).
+    - Build de produção compilado com sucesso em 3.05s com 57% de otimização de imagens.
+    - Servidor Vite ativo e respondendo em `http://localhost:5173/`.
+
+- **Remoção das Linhas Divisórias Horizontais (Seções 01–02 e 03–04) (`src/index.css`)**:
+  - **Fluxo Visual Contínuo & Canvas Editorial Unificado**:
+    - Identificada e eliminada a linha perimétrica inferior de 1px entre a Seção 01 (*Presença em números*) e Seção 02 (*Quem somos*): `.proof-section { border-bottom: none !important; }` e `.about-section { border-top: none !important; }`.
+    - Identificada e eliminada a linha perimétrica inferior de 1px entre a Seção 03 (*Área de atuação*) e Seção 04 (*Advogadas*): `.practice-section-light { border-bottom: none !important; }` e `.team-section { border-top: none !important; }`.
+    - Fusão harmoniosa do fundo marfim nobre (`var(--bg-primary)`) em um canvas contínuo, limpo e desobstruído.
+  - **Qualidade & Blindagem por Testes**:
+    - **24/24 testes aprovados** no Vitest (`pnpm test`).
+    - TypeScript 100% verificado sem erros (`tsc --noEmit`).
+    - Compilação e build sem quebras ou regressões.
+
+- **Anti-Aliasing por Hardware e Anel Óptico Suavizado no Hero (`src/index.css`)**:
+  - **Eliminação Total de Serrilhado nas Curvas**:
+    - Removida a borda dura perimétrica que provocava pixelização e dentes de serra nos cantos arredondados de 16px (`border: none !important`).
+    - Implementado um **Anel Óptico Suavizado por Subpixel**: `box-shadow: 0 0 0 1px rgba(163, 126, 75, 0.35), 0 16px 44px rgba(45, 15, 20, 0.16) !important;`, gerando um contorno suave e aveludado em ouro champanhe.
+  - **Aceleração por Hardware & Máscara Radial de GPU**:
+    - Ativado o anti-aliasing contínuo de subpixels na GPU com `-webkit-mask-image: -webkit-radial-gradient(white, black) !important; mask-image: radial-gradient(white, black) !important;` e `transform: translateZ(0) !important; isolation: isolate !important`.
+    - `.hero-image` configurada com `image-rendering: auto`, `backface-visibility: hidden` e aceleração 3D para nitidez máxima sem perda de definição.
+    - Sincronização perfeitamente replicada na mídia query mobile (`<= 768px`).
+  - **Qualidade & Blindagem por Testes**:
+    - **24/24 testes aprovados** no Vitest (`pnpm test`).
+    - TypeScript 100% verificado sem erros (`tsc --noEmit`).
+    - Build de produção compilado com sucesso em 3.14s com 57% de otimização de imagens.
+    - Servidor Vite ativo e respondendo em `http://localhost:5173/`.
+
+- **Parallax Suave de Profundidade no Banner do Manifesto (`.quote-section`) (`src/index.css`)**:
+  - **Camada de Profundidade Nativa (CSS Scroll-Driven Animations)**:
+    - Fundo cinematográfico (`url("/assets/office-manifesto-bg.webp")`) isolado no pseudo-elemento `.quote-section::before` com `inset: -18% 0` e aceleração direta por hardware (`will-change: transform`, GPU).
+    - Animação nativa `@keyframes manifesto-scroll-parallax` sincronizada com a rolagem da página via `animation-timeline: view()` e `animation-range: entry 0% exit 100%`, criando sensação tridimensional de profundidade enquanto o texto institucional flutua na frente.
+  - **Adaptação Mobile & Acessibilidade**:
+    - No mobile (`<= 768px`), gradiente vertical escuro de máxima legibilidade (`rgba(58, 23, 28, 0.94)`) e parallax micro-calibrado (`-5%` a `+5%`).
+    - Desativação imediata de movimento via `@media (prefers-reduced-motion: reduce)` para acessibilidade a usuários com sensibilidade vestibular.
+  - **Qualidade & Blindagem por Testes**:
+    - **24/24 testes aprovados** no Vitest (`pnpm test`).
+    - TypeScript 100% verificado sem erros (`tsc --noEmit`).
+    - Build de produção compilado com sucesso em 2.98s com 57% de otimização de imagens.
+    - Servidor Vite ativo e respondendo em `http://localhost:5173/`.
+
+- **Harmonização de Linha Única e Simetria no Rodapé Desktop e Mobile (`src/index.css`)**:
+  - **Eliminação da Linha Duplicada**:
+    - `.footer-top` configurado com divisor perimétrico único inferior em ouro translúcido (`border-bottom: 1px solid rgba(226, 189, 137, 0.22)`).
+    - `.footer-bottom` com `border-top: none !important; margin-top: 0 !important; padding: 24px 0 !important;`, eliminando definitivamente a linha dupla redundante que fragmentava o rodapé.
+  - **Simetria Editorial e Ergonomia no Mobile (`<= 768px`)**:
+    - `.site-footer` calibrado com recuo inferior seguro (`padding-bottom: calc(76px + env(safe-area-inset-bottom)) !important`), blindando contra qualquer sobreposição com o botão flutuante de WhatsApp e safe-areas de smartphones.
+    - `.footer-bottom` em coluna única vertical perfeitamente centralizada (`gap: 10px`), com o link do Instagram em ouro nobre (`#e2bd89`), copyright limpo centralizado e a localização (*Salinópolis / PA*) em destaque institucional suave.
+  - **Qualidade & Blindagem por Testes**:
+    - **24/24 testes aprovados** no Vitest (`pnpm test`).
+    - TypeScript 100% verificado sem erros (`tsc --noEmit`).
+    - Build de produção compilado com sucesso em 2.96s com 57% de otimização de imagens.
+    - Servidor Vite ativo e respondendo em `http://localhost:5173/`.
+
+- **Refinamentos Mobile de Alta Engenharia: Menu, FAQ e Seção 01 (`src/index.css`)**:
+  - **Menu Mobile em Fundo Marfim de Alto Contraste**:
+    - `.desktop-nav` configurado no mobile (`<= 768px`) com fundo nobre marfim claro (`var(--bg-primary, #FAF6F0)`), borda inferior sutil e sombra perimétrica aveludada (`box-shadow: 0 16px 36px rgba(58, 23, 28, 0.12)`).
+    - Links de navegação em vinho profundo (`var(--wine-deep, #3a171c)`) com divisores horizontais em ouro translúcido, feedback tátil com deslocamento suave para dourado e CTA de WhatsApp em largura total de 48px de área de toque.
+  - **Carrossel Tátil de Pílulas do FAQ com Scroll Horizontal**:
+    - `.faq-category-pills` atualizado com `flex-wrap: nowrap`, `overflow-x: auto`, rolagem inercial iOS/Android e barra de rolagem nativa oculta.
+    - Pílulas com `flex-shrink: 0` e `white-space: nowrap`, permitindo deslize lateral fluido em uma única fita contínua sem quebras verticais.
+  - **Compactação Vertical da Seção 01 (Presença em Números)**:
+    - `.proof-card` com padding vertical enxuto de `18px 0` e números monumentais calibrados em `2.8rem`, eliminando o excesso de scroll vertical em smartphones.
+  - **Qualidade & Blindagem por Testes**:
+    - **24/24 testes aprovados** no Vitest (`pnpm test`).
+    - TypeScript 100% verificado sem erros (`tsc --noEmit`).
+    - Build de produção compilado com sucesso em 3.18s com 57% de otimização de imagens.
+    - Servidor Vite ativo e respondendo em `http://localhost:5173/`.
+
+- **Assinatura Tipográfica Minimalista no Hero (`src/pages/Home.tsx`, `src/index.css` & `src/pages/Home.content.test.ts`)**:
+  - **Despoluição Visual & Foco Absoluto**:
+    - Eliminados os textos auxiliares redundantes abaixo do retrato (cargos, OABs, numerações e especialidades que já contam com o Dossiê Aberto detalhado na Seção 04).
+  - **Assinatura Minimalista de Luxo (`.hero-signature-wrap`)**:
+    - Implementada a assinatura minimalista exibindo exclusivamente o nome da advogada ativa (`Dra. Karlla Pinheiro` / `Dra. Keyteler Leite`) em tipografia serifada nobre (*Playfair Display*, `1.25rem`, peso 600, vinho profundo `#3a171c`).
+    - Sublinhado por uma micro-linha capilar dourada de alta costura (`.hero-signature-line`, 32px de largura, 1.5px de espessura, em ouro champanhe `var(--accent-gold, #9e7b56)`).
+  - **Harmonia Mobile-First**:
+    - Alinhamento central perfeito com espaçamento discreto (`margin-top: 14px`, calibrado para `10px` no mobile com linha de 24px).
+    - Neutralização rigorosa das classes legadas `.hero-editorial-caption`, `.hero-slide-glass` e `.hero-image-caption` (`display: none !important;`).
+  - **Qualidade & Blindagem por Testes**:
+    - **24/24 testes aprovados** no Vitest (`pnpm test`), com asserções validando `.hero-signature-wrap` e a ausência de elementos legados.
+    - TypeScript 100% verificado sem erros (`tsc --noEmit`).
+    - Build de produção compilado com sucesso em 3.03s com 57% de otimização de imagens.
+    - Servidor Vite ativo e respondendo em `http://localhost:5173/`.
+
+- **Dossiê Editorial de Autoridade Aberto Abaixo da Foto do Hero (`src/pages/Home.tsx`, `src/index.css` & `src/pages/Home.content.test.ts`)**:
+  - **Retrato 100% Puro & Desobstruído**:
+    - Removida qualquer sobreposição de dentro da foto (eliminada a div `.hero-slide-glass` de dentro de `CarouselItem`), garantindo que o retrato institucional mantenha sua composição, iluminação e contraste 100% puros e desimpedidos.
+  - **Dossiê Editorial Aberto Externo (`.hero-editorial-caption`)**:
+    - Implementado bloco editorial de alta autoridade posicionado logo abaixo da moldura (`.hero-image-wrap`), diretamente conectado ao estado da advogada ativa (`activeHeroSlide`).
+  - **Hierarquia Tipográfica de Alta Costura**:
+    - Badge institucional com numeração editorial em dois dígitos (`01`, `02`), separador losango `✦`, cargo institucional (`Sócia Fundadora` / `Sócia Titular`) e registro OAB (`OAB/PA 40.209` / `OAB/PA 40.642`) em ouro nobre e ardósia.
+    - Nome de autoridade em tipografia serifada monumental (*Playfair Display*, `1.35rem`, peso 700, vinho profundo `var(--wine-deep, #3a171c)`).
+    - Especialidade técnica em *Plus Jakarta Sans* (`Estratégia Previdenciária & Planejamento de CNIS` / `Atuação Rural & Pesca Artesanal`).
+  - **Design System & Ergonomia Mobile-First**:
+    - Alinhamento central harmônico com respiro vertical orgânico (`margin-top: 16px`, ajustado para `12px` em telas <= 640px).
+    - Neutralização das classes legadas `.hero-slide-glass` e `.hero-image-caption` com `display: none !important`.
+  - **Qualidade & Blindagem por Testes**:
+    - **24/24 testes aprovados** no Vitest (`pnpm test`), com asserções validando o novo dossiê editorial externo e garantindo ausência de captions ou sobreposições legadas.
+    - TypeScript 100% verificado sem erros (`tsc --noEmit`).
+    - Build de produção compilado com sucesso em 3.73s com 57% de otimização de imagens.
+    - Servidor Vite ativo e respondendo em `http://localhost:5173/`.
+
+- **Chancela Editorial em Vidro Escuro no Hero (`Dark Glassmorphism`) (`src/pages/Home.tsx`, `src/index.css` & `src/pages/Home.content.test.ts`)**:
+  - **Eliminação da Legenda Externa & Integração na Foto**:
+    - Substituída a antiga pílula externa solta abaixo da moldura (`.hero-image-caption`) por uma sofisticada **Chancela Editorial em Vidro Escuro (*Dark Glassmorphism*)** integrada diretamente na base de cada slide do carrossel (`.hero-slide-glass`).
+    - A identificação da advogada titular agora desliza sincronizada com o movimento da foto no carrossel.
+  - **Enriquecimento dos Dados Institucionais (`HERO_SLIDES`)**:
+    - Dra. Karlla Pinheiro: *Sócia Fundadora · OAB/PA 40.209* · *Estratégia Previdenciária & Planejamento de CNIS*.
+    - Dra. Keyteler Leite: *Sócia Titular · OAB/PA 40.642* · *Atuação Rural & Pesca Artesanal*.
+  - **Design System de Alta Costura & Mobile-First**:
+    - `.hero-slide-glass`: Gradiente escuro aveludado (`rgba(25, 10, 14, 0)` a `rgba(20, 7, 11, 0.95)`), desfoque óptico refinado (`backdrop-filter: blur(8px)`), régua superior em ouro champanhe translúcido (`border-top: 1px solid rgba(226, 189, 137, 0.28)`), losango dourado `✦`, tipografia serifada de alta autoridade (*Playfair Display*) e responsividade compacta em telas de até 640px.
+    - Remoção no JSX e neutralização total no CSS da classe legada `.hero-image-caption` (`display: none !important;`).
+  - **Qualidade & Blindagem por Testes**:
+    - **24/24 testes aprovados** no Vitest (`pnpm test`), com teste de regressão confirmando a chancela e a ausência do caption legado.
+    - TypeScript 100% verificado sem erros (`tsc --noEmit`).
+    - Build de produção compilado com sucesso em 3.75s com 57% de otimização de imagens.
+    - Servidor Vite ativo e respondendo em `http://localhost:5173/`.
+
+- **Integração de Alta Disponibilidade com Web3Forms (`src/components/site/site-config.ts` & `src/components/site/ContactForm.tsx`)**:
+  - **Ativação da Chave Oficial**:
+    - Adicionada a chave de acesso do Web3Forms `WEB3FORMS_ACCESS_KEY = "4dc03ab1-d0e9-4047-bd34-dd10226115f3"` em [src/components/site/site-config.ts](file:///c:/Users/NOC%2001/Desktop/AGENTE%20FRONT/src/components/site/site-config.ts).
+    - [src/components/site/ContactForm.tsx](file:///c:/Users/NOC%2001/Desktop/AGENTE%20FRONT/src/components/site/ContactForm.tsx) atualizado para despachar requisições via POST para `https://api.web3forms.com/submit` com payload estruturado (`access_key`, `name`, `whatsapp`, `assunto_beneficio`, `resumo_do_caso`, `subject`, `from_name`).
+    - Tratamento de resposta com validação estrita de `data.success` e tratamento semântico de exceções com fallback tático para WhatsApp.
+  - **Validação E2E em Produção Local**:
+    - Envio do formulário testado e validado com sucesso pelo usuário em tempo real.
+    - E-mail estruturado recebido instantaneamente na caixa de entrada do Gmail (`sandreodeivith@gmail.com`).
+    - Card de confirmação de sucesso exibido na interface sem erros de console ou travamento.
+  - **Qualidade & Blindagem por Testes**:
+    - **23/23 testes aprovados** no Vitest (`pnpm test`).
+    - TypeScript 100% verificado (`tsc --noEmit`).
+    - Build de produção compilado com sucesso em 3.17s com 57% de otimização de imagens.
+    - Servidor Vite ativo e respondendo em `http://localhost:5173/`.
+
+- **Transformação do Formulário em Canal de Triagem por E-mail com Resiliência Visual (`src/components/site/site-config.ts`, `src/components/site/ContactForm.tsx` & `src/index.css`)**:
+  - **Canal Assíncrono de Triagem por E-mail (FormSubmit AJAX)**:
+    - Adicionada a constante `CONTACT_EMAIL = "sandreodeivith@gmail.com"` centralizada em [src/components/site/site-config.ts](file:///c:/Users/NOC%2001/Desktop/AGENTE%20FRONT/src/components/site/site-config.ts).
+    - O formulário da Seção 06 ([src/components/site/ContactForm.tsx](file:///c:/Users/NOC%2001/Desktop/AGENTE%20FRONT/src/components/site/ContactForm.tsx)) foi transformado em um canal assíncrono de envio direto para a equipe jurídica, despachando via POST FormSubmit AJAX estruturado (tabela formatada, sem captcha obstrutivo, com assunto dinâmico).
+  - **Resiliência Front-end com os 4 Estados Visuais**:
+    1. *Ocioso (Idle)*: Formulário limpo com campos validados, máscara para WhatsApp com DDD e seletor com todos os ramos de atuação previdenciária.
+    2. *Enviando (Submitting)*: Botão com estado de carregamento animado (`Loader2`), opacidade reduzida e campos desabilitados prevenindo múltiplos envios acidentais.
+    3. *Sucesso (Success)*: Painel de confirmação editorial com ícone de check esmeralda (`#2e7d32`), mensagem personalizada com o nome do cliente, benefício selecionado, confirmação de retorno e botão de reenvio/novo contato.
+    4. *Erro & Fallback Tático (Error)*: Alerta contextual amigável com opção de tentar novamente ou acionar o botão de fallback imediato para o WhatsApp com todos os dados pré-preenchidos.
+  - **Qualidade & Blindagem por Testes**:
+    - **23/23 testes aprovados** no Vitest (`pnpm test`).
+    - TypeScript 100% verificado (`tsc --noEmit`).
+    - Build de produção compilado com sucesso em 3.17s com 57% de otimização de imagens.
+    - Servidor Vite ativo e respondendo em `http://localhost:5173/`.
+
+- **Definição Estrita de Papéis (Agente de Análise & Crítica Técnica — READ-ONLY no Código)**:
+  - **Papel Estabelecido**: Este agente atua **exclusivamente como Agente de Análise, Arquiteto e Consultor Crítico**, com proibição total de modificar arquivos de código da aplicação (`src/**`, `public/**`, etc.).
+  - **Atribuições Exclusivas**: Analisar criticamente o projeto, diagnosticar anomalias e oportunidades de UX/UI/performance, e gerar **prompts turnkey consolidados em bloco único** para execução exclusiva pelo **Agente Construtor (IDE)**.
+- **Eliminação da Linha Branca e Entalhes de Canto na Transição do Hero Carousel (`src/index.css`)**:
+  - **Diagnóstico Cirúrgico & Causa Raiz**:
+    - A moldura `.hero-image-wrap` possuía `background: var(--bg-surface) !important;` (branco puro `#FFFFFF`), enquanto os retratos possuem fundo escuro de estúdio.
+    - Cada slide `.hero-image` possuía `border-radius: 16px !important;` individual, fazendo com que as fotos adjacentes na esteira do carrossel tivessem seus cantos arredondados para dentro, criando entalhes triangulares brancos vazados nos cantos superior e inferior esquerdos durante o deslizamento.
+    - Qualquer sub-pixel gap ou anti-aliasing na transição entre slides expunha a cor de fundo do container como uma linha vertical branca no meio da imagem.
+  - **Correção de Alta Fidelidade**:
+    - Fundo de `.hero-image-wrap` alterado para `var(--wine-deep, #3a171c) !important;`, integrando o fundo da moldura à paleta de estúdio das fotos.
+    - `.hero-image` ajustada com `border-radius: 0 !important;`, `width: 100% !important;`, `height: 100% !important;` e `object-fit: cover !important;`, deixando o corte arredondado perimetral de 16px exclusivamente a cargo do container pai (`.hero-image-wrap { overflow: hidden !important; }`).
+    - Zeradas margens e preenchimentos da esteira (`.hero-carousel-track { margin-left: 0 !important; }` e `.hero-carousel-item { padding-left: 0 !important; }`), garantindo transição 100% contínua, fluida e sem nenhum traço de linha branca ou recortes de canto.
+  - **Qualidade & Blindagem por Testes**:
+    - **23/23 testes aprovados** no Vitest (`pnpm test`).
+    - TypeScript 100% verificado (`tsc --noEmit`).
+    - Build de produção compilado com sucesso em 3.29s com 57% de otimização de imagens.
+    - Servidor Vite ativo e respondendo em `http://localhost:5173/`.
+
+- **Universalização da Skill de Inteligência de Nicho (`@[niche-benchmark-intel]` v2.0.0 — Universal Master System)**:
+  - **Evolução Multi-Indústria Agnóstica**:
+    - A skill foi completamente refatorada e universalizada tanto localmente em [c:\Users\NOC 01\Desktop\AGENTE FRONT\.agents\skills\niche-benchmark-intel\SKILL.md](file:///c:/Users/NOC%2001/Desktop/AGENTE%20FRONT/.agents/skills/niche-benchmark-intel/SKILL.md) quanto globalmente em `C:\Users\NOC 01\.gemini\config\skills\niche-benchmark-intel\SKILL.md`.
+    - Agora atende **qualquer projeto presente e futuro** em qualquer segmento: SaaS, E-commerce D2C, Fintechs, Saúde/Clínicas, Luxo/Imobiliário, Advocacia, B2B Enterprise, Aplicativos Móveis e Plataformas Editoriais.
+    - Equipada com a **Matriz dos 6 Arquétipos de Indústria** e o **Protocolo Universal de 6 Vetores** (Scouting Autônomo na Web, Atmosfera Visual e Proporção 60-30-10, Arquitetura Narrativa da Landing Page, Ergonomia de Conversão, Microcopy de Redução de Fricção e Física Tátil Mobile-First).
+  - **Integração na Memória Persistente**:
+    - Atualizada a diretriz em [.agents/memory/MEMORY.md](file:///c:/Users/NOC%2001/Desktop/AGENTE%20FRONT/.agents/memory/MEMORY.md).
+  - **Qualidade & Blindagem por Testes**:
+    - **23/23 testes aprovados** no Vitest (`pnpm test`), TypeScript 100% limpo, build de produção rápido e otimizado.
+
+- **Transformação da Seção 04 em Dossiê Editorial Aberto das Sócias Titulares (`src/index.css`)**:
+  - **Eliminação de Cards Fechados ao Lado do Retrato Oficial**:
+    - Removidos fundo branco, bordas perimetrais, cantos arredondados e sombras de `.team-profile-card` em [src/index.css](file:///c:/Users/NOC%2001/Desktop/AGENTE%20FRONT/src/index.css).
+    - As biografias das sócias agora compõem um **Dossiê Editorial Aberto**, diretamente integrado ao fundo marfim do site, em perfeita harmonia com o retrato vertical nobre.
+  - **Réguas e Hairlines de Alta Costura**:
+    - O bloco `.team-profiles` é ancorado por réguas horizontais superior e inferior em ouro champanhe translúcido (`border-top/bottom: 1px solid rgba(163, 126, 75, 0.28)`), com um divisor horizontal fino separando a Dra. Karlla Pinheiro da Dra. Keyteler Leite.
+    - Nomes destacados em tipografia serifada de alta autoridade (*Playfair Display*, 26px, vinho profundo), numeração `01` e `02` discreta, selo OAB institucional e tags de especialidade (*Estratégia & CNIS* e *Rural & Pesca Artesanal*) em ouro translúcido.
+  - **Qualidade & Blindagem por Testes**:
+    - **23/23 testes aprovados** no Vitest (`pnpm test`), preservando 100% da semântica dos perfis e das asserções de teste.
+    - TypeScript 100% verificado (`tsc --noEmit`).
+    - Build de produção compilado com sucesso em 2.92s com 57% de otimização de imagens.
+    - Servidor Vite ativo e respondendo em `http://localhost:5173/`.
+
+- **Eliminação do Anel Dourado de Foco e da Borda Dupla no Campo de Busca do FAQ (`src/index.css`)**:
+  - **Remoção do Anel Externo de Foco**:
+    - Removido completamente o halo/anel dourado (`box-shadow: none !important` e `outline: none !important`) acionado ao clicar/focar no campo de busca (`.faq-search-box:focus-within`, `.faq-search-input:focus` e `.section-wine.faq-section .faq-search-input:focus`).
+    - O campo agora preserva uma transição limpa e discreta, sem linhas duplas ou anéis em volta da cápsula.
+  - **Eliminação dos Cantos Vazados (Borda Dupla Fantasma)**:
+    - Identificada e eliminada a regra legada com `border-radius: 14px` e borda ativa em `.section-wine.faq-section .faq-search-input` que vazava pelos cantos da pílula.
+    - O `<input>` agora opera 100% transparente (`background: transparent !important`, `border: none !important`, `border-radius: 0 !important`), e o container `.faq-search-box` recebeu `overflow: hidden !important`, blindando qualquer saliência nos cantos.
+  - **Qualidade & Blindagem por Testes**:
+    - **23/23 testes aprovados** no Vitest (`pnpm test`).
     - TypeScript 100% limpo (`tsc --noEmit`).
-    - Build de produção compilado com sucesso em 2.97s.
-    - Servidor local atualizado via HMR.
+    - Build de produção compilado com sucesso em 3.23s com 57% de otimização de imagens.
+    - Servidor Vite ativo e respondendo em `http://localhost:5173/`.
+
+- **Remoção do Botão do Waze — Foco Absoluto e Elegância no Google Maps (`src/pages/Home.tsx`, `src/pages/ServicosPrevidenciarios.tsx` & `src/pages/Home.content.test.ts`)**:
+  - **Eliminação de Atrito Cognitivo & Competição de CTAs**:
+    - Removido o botão redundante `Rota no Waze` do painel de endereço da Seção 06 em [src/pages/Home.tsx](file:///c:/Users/NOC%2001/Desktop/AGENTE%20FRONT/src/pages/Home.tsx) e [src/pages/ServicosPrevidenciarios.tsx](file:///c:/Users/NOC%2001/Desktop/AGENTE%20FRONT/src/pages/ServicosPrevidenciarios.tsx).
+    - O endereço agora conta com uma chamada única, límpida e soberana para o **`Google Maps ↗`**, padrão universal que abre nativamente em qualquer smartphone (Android/iOS) ou navegador sem exigir instalação de aplicativo secundário.
+  - **Limpeza de Código**:
+    - Removido o import órfão `Navigation` de `lucide-react` em ambas as páginas.
+  - **Qualidade & Blindagem por Testes**:
+    - **23/23 testes aprovados** no Vitest (`pnpm test`), com asserção em [src/pages/Home.content.test.ts](file:///c:/Users/NOC%2001/Desktop/AGENTE%20FRONT/src/pages/Home.content.test.ts) validando a ausência do Waze e a presença do Google Maps.
+    - TypeScript 100% verificado (`tsc --noEmit`).
+    - Build de produção compilado com sucesso em 3.26s com 57% de otimização de imagens.
+    - Servidor Vite ativo e respondendo em `http://localhost:5173/`.
+
+- **Ativação do Ícone Discreto de Busca e Harmonização das Categorias do FAQ (`src/pages/Home.tsx`, `src/index.css` & `src/pages/Home.content.test.ts`)**:
+  - **Categorias em Linha Única Simétrica**:
+    - Rótulos de `FAQ_CATEGORIES` refinados para concisão elegante (*"Todas"*, *"Aposentadorias"*, *"Salário-Maternidade"*, *"Seguro-Defeso & Rural"*, *"Incapacidade & BPC"*, *"Negativas & Atendimento"*), economizando mais de 180px e eliminando a pílula órfã no desktop.
+  - **Cápsula de Busca de Luxo**:
+    - `.faq-search-box` configurada com altura ergonômica de 52px, borda fina em ouro champanhe translúcido, foco dourado suave e ícone de lupa `.faq-search-icon` perfeitamente alinhado em ouro champanhe discreto (`rgba(226, 189, 137, 0.75)`), com recuo de 48px para leitura e digitação limpa.
+  - **Pílulas de Filtro Compactas e Proporcionais**:
+    - `.faq-pill-btn` calibradas com tipografia em caixa alta suave (`11px`, `letter-spacing: 0.04em`), bordas refinadas e realce ativo em dourado nobre (`var(--accent-gold)`) com texto contrastante escuro e sombra sutil.
+  - **Qualidade & Blindagem por Testes**:
+    - **23/23 testes aprovados** no Vitest (`pnpm test`), com asserções em [src/pages/Home.content.test.ts](file:///c:/Users/NOC%2001/Desktop/AGENTE%20FRONT/src/pages/Home.content.test.ts) sincronizadas com as novas categorias.
+    - TypeScript 100% verificado (`tsc --noEmit`).
+    - Build de produção compilado com sucesso em 3.72s com 57% de otimização de imagens.
+    - Servidor Vite ativo e respondendo em `http://localhost:5173/`.
+
+- **Transformação da Seção 01 em Horizonte Estatístico Integrado (`src/index.css`)**:
+  - **Eliminação dos Cards Fechados e Abertura Editorial**:
+    - Removidos fundo branco, bordas perimetrais, cantos arredondados e sombras de `.proof-card`.
+    - As 3 métricas agora compõem um **Horizonte Estatístico Editorial Aberto**, diretamente fundido ao papel marfim (`--bg-primary`).
+    - Delimitado por réguas horizontais superior e inferior em ouro champanhe translúcido (`border-top/bottom: 1px solid rgba(163, 126, 75, 0.28)`).
+    - 3 colunas proporcionais abertas com divisores verticais sutis à direita (`border-right: 1px solid rgba(163, 126, 75, 0.22)`), primeira coluna sem padding esquerdo e terceira coluna sem borda direita.
+    - Números monumentais serifados (`clamp(3.2rem, 4.8vw, 4.5rem)`, vinho profundo) e kickers despoluídos sem aspecto de pílula (`11px`, uppercase, ouro escuro).
+  - **Lapidação Mobile-First (< 768px)**:
+    - Empilhamento vertical em fluxo contínuo com divisores horizontais suaves (`border-bottom: 1px solid rgba(163, 126, 75, 0.18)`).
+    - Ícones ativos com fundo vinho nobre e símbolo em branco luminoso.
+  - **Qualidade & Blindagem por Testes**:
+    - **23/23 testes aprovados** no Vitest (`pnpm test`), preservando 100% da integridade semântica e contratual.
+    - TypeScript 100% verificado (`tsc --noEmit`).
+    - Build de produção compilado com sucesso em 3.37s com 57% de otimização de imagens.
+    - Servidor Vite ativo e respondendo em `http://localhost:5173/`.
+
+- **Remoção da Linha Divisória Superior da Régua do Hero — Fluidez Editorial (`src/index.css`)**:
+  - **Chancela Flutuante & Sem Linha Divisória**:
+    - Removida a borda superior (`border-top: none !important`) de `.hero-bottom-note` no desktop e no mobile, eliminando a fragmentação horizontal entre o retrato/texto e a régua de confiança.
+    - Calibrado o respiro vertical orgânico com `padding-top: 32px`, `padding-bottom: 16px`, `margin-top: 16px` e gap de `24px` no desktop, e `padding-top: 24px` com gap `12px 18px` no mobile (`<= 768px`).
+    - Os selos de prestígio agora repousam de forma fluida e nobre sobre o papel marfim editorial da página.
+  - **Qualidade & Blindagem por Testes**:
+    - **23/23 testes aprovados** no Vitest (`pnpm test`).
+    - TypeScript 100% limpo (`tsc --noEmit`).
+    - Build de produção compilado com sucesso em 2.95s com 57% de otimização de imagens.
+    - Servidor Vite ativo e respondendo em `http://localhost:5173/`.
+
+- **Transformação da Régua do Hero em Chancela de Prestígio Editorial (`src/pages/Home.tsx`, `src/index.css` & `src/pages/Home.content.test.ts`)**:
+  - **Elevação do Trust Ribbon (`.hero-bottom-note`)**:
+    - A faixa inferior do Hero foi remodelada como uma chancela de alta costura jurídica (*Trust Ribbon*), com micro-ícones de linha fina em ouro champanhe (`ShieldCheck`, `MapPin`, `Scale`), separadores em losango dourado (`✦`) e tipografia em caixa alta suave (`11.5px`, `letter-spacing: 0.08em`, `font-weight: 600`).
+    - **Itens de Prestígio Chancelados**:
+      1. *Atendimento Dedicado* (com `ShieldCheck`)
+      2. *Sede Física em Salinópolis - PA* (com `MapPin`)
+      3. *Atuação Previdenciária Nacional* (com `Scale`)
+  - **Lapidação Responsiva Mobile**:
+    - No mobile (`<= 768px`), os separadores losango são ocultados automaticamente (`display: none`), permitindo que as chancelas fluam com alinhamento central harmônico sem quebras desconfortáveis.
+  - **Qualidade & Blindagem por Testes**:
+    - **23/23 testes aprovados** no Vitest (`pnpm test`), com asserções em [src/pages/Home.content.test.ts](file:///c:/Users/NOC%2001/Desktop/AGENTE%20FRONT/src/pages/Home.content.test.ts) validando os novos itens de chancela.
+    - TypeScript 100% verificado (`tsc --noEmit`).
+    - Build de produção compilado com sucesso em 3.35s com 57% de otimização de imagens.
+    - Servidor Vite ativo e respondendo em `http://localhost:5173/`.
+
+- **Remoção da Pílula SaaS do Hero — Estética Editorial Humana e Nobre (`src/pages/Home.tsx`, `src/index.css` & `src/pages/Home.content.test.ts`)**:
+  - **Eliminação do Badge Flutuante**:
+    - Removido completamente o elemento flutuante `.hero-presence-badge` com o ponto verde pulsante `.hero-presence-dot` e `@keyframes livePulse`, eliminando o aspecto de aplicativo SaaS / tech startup.
+    - O Hero agora inicia diretamente com uma abertura tipográfica clássica, imponente e artesanal (*Atelier Jurídico*):
+      `<p className="eyebrow">Advocacia Previdenciária · Salinópolis &amp; Brasil</p>`.
+  - **Limpeza do CSS**:
+    - Removidas as regras obsoletas `.hero-presence-badge` (desktop e mobile), `.hero-presence-dot` e `@keyframes livePulse` de [src/index.css](file:///c:/Users/NOC%2001/Desktop/AGENTE%20FRONT/src/index.css).
+  - **Qualidade & Blindagem por Testes**:
+    - **23/23 testes aprovados** no Vitest (`pnpm test`), com testes em [src/pages/Home.content.test.ts](file:///c:/Users/NOC%2001/Desktop/AGENTE%20FRONT/src/pages/Home.content.test.ts) sincronizados para certificar a ausência do badge e a presença do novo eyebrow.
+    - TypeScript 100% verificado (`tsc --noEmit`).
+    - Build de produção compilado com sucesso em 2.98s com 57% de otimização de imagens.
+    - Servidor Vite ativo e respondendo em `http://localhost:5173/`.
+
+- **Refinamentos Cirúrgicos de UX/UI — Hero, Card Pesqueiro e Contatos (`src/pages/Home.tsx`, `src/index.css` & `src/pages/Home.content.test.ts`)**:
+  1. **Eliminação de Redundância no Hero (`src/pages/Home.tsx`)**:
+     - O badge superior `.hero-presence-badge` já informa o atendimento presencial em Salinópolis.
+     - O eyebrow foi refinado para **`<p className="eyebrow">Advocacia Previdenciária Especializada</p>`**, eliminando a repetição da cidade e reforçando o posicionamento previdenciário de autoridade.
+  2. **Nivelamento do Card Pesqueiro / Seguro-Defeso (`src/pages/Home.tsx`)**:
+     - Badge do card encurtado de *"★ Tradição Pesqueira em Salinópolis & Costa Norte"* para **`"Pesca Artesanal"`**, garantindo que o cabeçalho ocupe apenas 1 linha e nivele perfeitamente a grade horizontal com os demais cards.
+  3. **Centralização Editorial Simétrica dos Cards de Contato (`src/index.css`)**:
+     - Cards de contato rápido (Horário de Atendimento e WhatsApp) estruturados com layout vertical centralizado (`display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 155px;`).
+     - Ícones dourados centralizados no topo com moldura de 44x44px e cantos de 12px.
+     - Hierarquia tipográfica nobre: títulos em caixa alta suave (`11.5px`, `letter-spacing: 0.06em`), telefone serifado em dourado (`1.25rem`, peso 600) e elevação aveludada no hover.
+  - **Qualidade & Blindagem por Testes**:
+    - **23/23 testes aprovados** no Vitest (`pnpm test`), com asserções em [src/pages/Home.content.test.ts](file:///c:/Users/NOC%2001/Desktop/AGENTE%20FRONT/src/pages/Home.content.test.ts) validando tanto o novo eyebrow quanto o badge *"Pesca Artesanal"*.
+    - TypeScript 100% verificado (`tsc --noEmit`).
+    - Build de produção compilado com sucesso em 3.33s com 57% de otimização de imagens.
+    - Servidor Vite ativo e respondendo em `http://localhost:5173/`.
+
+
+- **Refino Editorial Cirúrgico, Eliminação de Ecos, Elevação do BPC/LOAS & Inversão de Hierarquia dos Botões**:
+  1. **Eliminação de Ecos no Hero (`src/pages/Home.tsx`)**:
+     - Parágrafo `.hero-lead` atualizado para eliminar a repetição do atendimento regional (já presente no badge superior) e reforçar autoridade jurídica técnica:
+       *“Orientação jurídica especializada, linguagem acessível e rigor técnico na defesa do seu benefício perante o INSS e a Justiça Federal.”*
+  2. **Elevação do BPC/LOAS (`src/pages/Home.tsx`)**:
+     - O item 6 de `practiceCardsData` foi elevado de seu antigo rótulo genérico (*"Outros serviços jurídicos"*) para **`title: "BPC / LOAS"`**, com badge **`"Idosos (65+) & PcD"`**, descrição explicitando a dispensa de contribuição prévia e mensagem de WhatsApp direcionada, integrando-se nativamente ao `ServiceDetailDrawer`.
+  3. **Inversão da Hierarquia de Conversão nos Cards de Atuação (`src/pages/Home.tsx` e `src/index.css`)**:
+     - **Botão Primário de Conversão:** A ação do WhatsApp (*“Consultar meu direito neste benefício ↗”*) agora ocupa o topo da área de ações com o visual soberano de botão sólido em Vinho Profundo (`var(--bg-accent-dark)`), borda dourada champanhe, texto branco e sombra de alta conversão.
+     - **Ação Secundária:** O gatilho do Drawer (*“Ver detalhes e requisitos ↗”*) foi posicionado abaixo como botão secundário suave, permitindo ao segurado checar a documentação recomendada sem competir com a chamada principal.
+     - Sincronizado no desktop e no mobile (`.practice-cards-grid .practice-card-action` ativo em vinho no celular).
+  - **Qualidade & Blindagem por Testes**:
+    - **23/23 testes aprovados** no Vitest (`pnpm test`), com asserção atualizada em [src/pages/Home.content.test.ts](file:///c:/Users/NOC%2001/Desktop/PROJETOS%20ANTIGRAVITY/PROJETO%20K&K%202.0/src/pages/Home.content.test.ts).
+    - TypeScript 100% verificado sem erros (`tsc --noEmit`).
+    - Build de produção compilado com sucesso em 3.10s com 55% de otimização de imagens.
+    - Servidor Vite ativo e respondendo em `http://localhost:5173/`.
+
+- **Correção Crítica do Hero no Mobile & Alinhamento do Balão de WhatsApp (`src/index.css`)**:
+  - **Hero em 1 Coluna Vertical Fluida**:
+    - No mobile (`max-width: 768px`), corrigido o `.hero-grid` de 2 colunas espremidas para **1 coluna vertical fluida e rigorosamente centralizada** (`flex-direction: column`, `align-items: center`, `text-align: center`, `gap: 28px`).
+    - `.hero-copy h1` com clamp responsivo seguro (`clamp(2rem, 8vw, 2.7rem)`), `max-width: 18ch` e margens automáticas.
+    - `.hero-lead` e `.hero-lead-national span` calibrados com `max-width: 36ch`, entrelinha `1.55` e centralização harmônica.
+    - `.hero-actions` em coluna única com largura máxima ergonômica de 320px, botões ocupando 100% da área útil com altura mínima de 48px.
+    - `.hero-visual` e `.hero-image-wrap` limitados a 320px com proporção 4/5, cantos suaves de 16px e sombra editorial aveludada.
+    - `.hero-presence-badge` centralizado no topo com tipografia e paddings ajustados para telas pequenas (360px a 390px).
+  - **Ergonomia e Ancoragem do Balão de WhatsApp no Mobile**:
+    - `.whatsapp-float-greeting` ancorado com `bottom: calc(4.2rem + env(safe-area-inset-bottom))` e `right: 0.85rem`, alinhado com precisão milimétrica acima do botão flutuante e imune a safe-areas de iPhones.
+    - Largura adaptativa com `width: min(270px, calc(100vw - 1.7rem))` para prevenir 100% de qualquer scroll horizontal em smartphones de 360px.
+    - Botão de fechar do balão com área tátil confortável (28x28px) e `touch-action: manipulation`.
+  - **Qualidade & Blindagem por Testes**:
+    - **23/23 testes aprovados** no Vitest (`pnpm test`).
+    - TypeScript 100% limpo (`tsc --noEmit`).
+    - Build de produção compilado com sucesso em 3.15s com 55% de otimização de imagens.
+    - Servidor Vite ativo e respondendo em `http://localhost:5173/`.
+
+- **Lapidação de Experiência Única (UX/UI & Conversão — 5 Melhorias Cirúrgicas)**:
+  1. **Hero Section — Badge Dinâmico de Presença Viva (`.hero-presence-badge`)**:
+     - Adicionado pill translúcido acima do eyebrow em [src/pages/Home.tsx](file:///c:/Users/NOC%2001/Desktop/PROJETOS%20ANTIGRAVITY/PROJETO%20K&K%202.0/src/pages/Home.tsx) com ponto verde esmeralda pulsante (`.hero-presence-dot` com animação `@keyframes livePulse`) e a mensagem: *“● Atendimento Presencial em Salinópolis & Consultoria em todo o Brasil”*.
+     - Borda em ouro champanhe suave, fundo marfim translúcido e pulso sutil comunicando disponibilidade viva e imediata das sócias.
+  2. **Seção 03 (Atuação) — Destaque Regional de Salinas & Checklist Interativo no Drawer**:
+     - No card `seguro-defeso` em `practiceCardsData`, atualizado o badge de especialidade para: *“★ Tradição Pesqueira em Salinópolis & Costa Norte”*.
+     - Em [src/components/site/ServiceDetailDrawer.tsx](file:///c:/Users/NOC%2001/Desktop/PROJETOS%20ANTIGRAVITY/PROJETO%20K&K%202.0/src/components/site/ServiceDetailDrawer.tsx), a lista de documentos recomendados foi transformada em um **checklist interativo com checkboxes acessíveis**.
+     - Ao selecionar documentos, o botão de WhatsApp interpola dinamicamente os itens marcados na mensagem pré-formatada: *“Olá, Dras. Karlla e Keyteler! Gostaria de consultar sobre [Serviço]. Já possuo os seguintes documentos: [Documentos marcados].”*, e o CTA atualiza o texto para *“Enviar com X documento(s) marcado(s)”*.
+  3. **Seção 05 (FAQ) — Marca-Texto Dourado em Tempo Real (`.faq-search-highlight`)**:
+     - Implementada a função utilitária `highlightSearchMatch` em [src/pages/Home.tsx](file:///c:/Users/NOC%2001/Desktop/PROJETOS%20ANTIGRAVITY/PROJETO%20K&K%202.0/src/pages/Home.tsx) com escape seguro de caracteres especiais regex.
+     - As ocorrências do termo pesquisado no acordeon do FAQ (tanto nas perguntas quanto nas respostas) são envoltas dinamicamente por `<mark className="faq-search-highlight">`.
+     - No CSS (`src/index.css`), `.faq-search-highlight` estilizado com fundo `rgba(158, 123, 86, 0.22)`, cor herdeira, cantos de `3px` e padding de `0 3px`.
+  4. **Seção 06 (Atendimento & Contato) — Máscara de Telefone e Atalho Waze**:
+     - Em [src/components/site/ContactForm.tsx](file:///c:/Users/NOC%2001/Desktop/PROJETOS%20ANTIGRAVITY/PROJETO%20K&K%202.0/src/components/site/ContactForm.tsx), implementada autoformatação via `formatPhoneInput` no evento `onChange`: o número se formata automaticamente para `(XX) XXXXX-XXXX` ou `(XX) XXXX-XXXX` à medida que o usuário digita.
+     - Na Seção de Localização em [src/pages/Home.tsx](file:///c:/Users/NOC%2001/Desktop/PROJETOS%20ANTIGRAVITY/PROJETO%20K&K%202.0/src/pages/Home.tsx) e [src/pages/ServicosPrevidenciarios.tsx](file:///c:/Users/NOC%2001/Desktop/PROJETOS%20ANTIGRAVITY/PROJETO%20K&K%202.0/src/pages/ServicosPrevidenciarios.tsx), adicionado o botão pílula de rota direta no **Waze** (`https://waze.com/ul?q=Avenida%20Modesto%20da%20Encarna%C3%A7%C3%A3o%20Rodrigues%20756%20Salinopolis%20PA`) com ícone `Navigation` ao lado do Google Maps.
+  5. **Botão Flutuante de WhatsApp — Balãozinho Editorial Acolhedor (`.whatsapp-float-greeting`)**:
+     - Em [src/pages/Home.tsx](file:///c:/Users/NOC%2001/Desktop/PROJETOS%20ANTIGRAVITY/PROJETO%20K&K%202.0/src/pages/Home.tsx), criado estado `showFloatGreeting` acionado após 4 segundos de montagem com persistência de fechamento no `sessionStorage` (`kk_wa_greeting_dismissed`).
+     - Balão editorial de luxo com mensagem calorosa: *“Dúvidas sobre o seu benefício? Fale diretamente com as advogadas titulares.”*, botão de fechamento acessível, ponta de balão chanfrada e animação suave `@keyframes floatGreetingFadeIn`.
+  - **Qualidade & Blindagem por Testes**:
+    - **23/23 testes aprovados** no Vitest (`pnpm test`), com novo bloco de asserções em [src/pages/Home.content.test.ts](file:///c:/Users/NOC%2001/Desktop/PROJETOS%20ANTIGRAVITY/PROJETO%20K&K%202.0/src/pages/Home.content.test.ts).
+    - TypeScript 100% verificado sem erros (`tsc --noEmit`).
+    - Build de produção compilado com sucesso em 3.05s com 55% de otimização de imagens.
+    - Servidor Vite ativo e respondendo em `http://localhost:5173/`.
+
+- **Despoluição dos CTAs do Hero (Remoção da Linha de Contato Secundária)**:
+  - Removido o parágrafo `<p className="hero-contact-note">` ("WhatsApp e telefone: (91) 9162-0280") do bloco de ações da primeira dobra em [src/pages/Home.tsx](file:///c:/Users/NOC%2001/Desktop/PROJETOS%20ANTIGRAVITY/PROJETO%20K&K%202.0/src/pages/Home.tsx).
+  - O bloco de conversão do Hero agora foca com máxima força e clareza nos dois direcionamentos principais: o botão de ação primária (*"Falar com as advogadas"*) e o link institucional (*"Conhecer a sociedade" / scroll suave*).
+  - O telefone `(91) 9162-0280` permanece 100% preservado em todos os pontos canônicos: utilitário superior, Seção 06 de Atendimento, rodapé institucional, botão flutuante e metadados JSON-LD.
+  - **Qualidade & Blindagem por Testes**:
+    - **22/22 testes aprovados** no Vitest (`pnpm test`), com asserção atualizada em [src/pages/Home.content.test.ts](file:///c:/Users/NOC%2001/Desktop/PROJETOS%20ANTIGRAVITY/PROJETO%20K&K%202.0/src/pages/Home.content.test.ts).
+    - TypeScript 100% limpo (`tsc --noEmit`).
+    - Build de produção compilado com sucesso em 3.26s.
+    - Servidor local ativo com HMR instantâneo em `http://localhost:5173/`.
+
+- **Auditoria Técnica de Layout, Responsividade & Performance (6 Correções Concluídas)**:
+  1. **Seção 03 — Grade de Serviços Equilibrada (3x2)**:
+     - Configurado `.practice-cards-grid` no desktop para `repeat(3, minmax(0, 1fr))` fixos (e `repeat(2, minmax(0, 1fr))` abaixo de 1024px), eliminando definitivamente o layout assimétrico de 4+2 cards.
+     - Garantido `display: flex !important;` em `@media (max-width: 768px)` declarado após a regra desktop, mantendo o carrossel tátil de 1 card por vez 100% operacional com `.practice-carousel-controls`.
+  2. **Seção 06 — Cards de Contato Lado a Lado (`.contact-details-grid`)**:
+     - Exibição em 2 colunas no desktop (`repeat(2, minmax(0, 1fr)) !important;`) e coluna única fluida apenas abaixo de 640px.
+     - Layout horizontal em linha nos itens (`flex-direction: row; align-items: flex-start; text-align: left; padding: 20px;`) e alinhamento à esquerda no corpo (`.contact-detail-body`).
+     - Linha decorativa `.contact-detail-item::before` ocultada (`display: none !important;`).
+  3. **Seção 02 — Unificação dos Cards de Valores (`.value-item`)**:
+     - Barra escura superior `.value-item::before` ocultada (`display: none !important;`), harmonizando os 4 cards de valores com a estética limpa das Seções 01 e 03.
+  4. **Header — Proporção Íntegra da Logo (`.brand-mark`)**:
+     - `.brand-mark img` ajustado para `object-fit: contain !important;`, prevenindo recortes na geometria do monograma dourado.
+  5. **Rodapé — Correção de Sobreposição no Rodapé (`.footer-top`)**:
+     - Removido `position: absolute; left: 50%; transform: translate(-50%, -50%)` de `.footer-top > .footer-eyebrow`.
+     - Layout estruturado no CSS Grid nativo com `grid-template-columns: auto 1fr auto !important; align-items: center; justify-items: center;`, permitindo fluxo central natural sem risco de colisão e empilhamento vertical suave no mobile (`<= 768px`).
+  6. **Performance & LCP (Fontes e Imagem Hero)**:
+     - Removidas `Cormorant Garamond` e `Manrope` da tag do Google Fonts em `index.html`, carregando unicamente `Playfair Display` e `Plus Jakarta Sans`.
+     - 55 referências residuais no CSS substituídas por `var(--font-serif)` e `var(--font-sans)`.
+     - No primeiro slide do Hero em `src/pages/Home.tsx`, aplicados `fetchPriority="high"` e `loading="eager"`, e `loading="lazy"` no slide secundário, acelerando expressivamente a métrica de LCP.
+  - **Qualidade & Blindagem por Testes**:
+    - **22/22 testes aprovados** no Vitest (`pnpm test`).
+    - TypeScript 100% verificado (`tsc --noEmit`).
+    - Build de produção compilado com sucesso em 3.40s.
+    - Servidor local ativo em `http://localhost:5173/`.
+
+- **Correção Definitiva da Renderização do Logo Oficial (`.brand-mark`)**:
+  - **Identificação da Causa-Raiz**:
+    - O arquivo `public/assets/logo-oficial.png` original possuía ~500px de transparência lateral e uma linha de corte/recorte branca irregular nos cantos inferiores, causando um corte/entalhe visual (*notch*) visível onde o fundo vinho era interrompido por pixels brancos.
+    - O container `.brand-mark` em `src/index.css` utilizava uma borda sutil cinza/bege (`border: 1px solid var(--border-subtle)`), gerando uma segunda moldura externa que evidenciava a margem e o recorte do logo.
+  - **Solução Implementada**:
+    - O ativo de alta fidelidade não corrompido (`public/assets/favicon-512.png`), que contém o exato monograma "K" dourado com seu traço interno sobre fundo vinho 100% sólido sem nenhum artefato ou corte nos 4 cantos, foi exportado em alta resolução (1024×1024 via interpolação Lanczos3) diretamente para `public/assets/logo-oficial.png`.
+    - Backup preservado intacto em `public/assets/logo-oficial.original-backup.png`.
+    - No CSS (`src/index.css`), `.brand-mark` foi lapidado para agir como o badge joia oficial: fundo transparente, remoção da borda redundante (`border: 0 !important`), cantos suaves de 8px com `overflow: hidden`, sombra aveludada (`box-shadow: 0 2px 8px rgba(58, 23, 28, 0.16)`) e imagem preenchendo 100% com `object-fit: cover`.
+    - No rodapé (`src/components/site/Footer.tsx`), atributos de dimensão atualizados para proporção quadrada 160×160.
+  - **Qualidade & Blindagem por Testes**:
+    - **22/22 testes aprovados** no Vitest (`pnpm test`).
+    - TypeScript 100% limpo (`tsc --noEmit`).
+    - Build de produção compilado com sucesso em 3.65s com 55% de economia em assets.
+    - Servidor local ativo em `http://localhost:5173/`.
+
+- **Refatoração Completa do Design System & Redesign Visual (Identidade Editorial 2026)**:
+  - **Paleta de Cores e Contraste Estrito (WCAG AA/AAA)**:
+    - `--bg-primary: #FAF6F0`: Fundo bege claro suave adotado como base geral e no Hero (substituindo o antigo fundo vinho escuro), proporcionando leveza, elegância e máximo contraste para o retrato da advogada.
+    - `--bg-surface: #FFFFFF`: Fundo puro para cards padronizados, formulário de contato e containers de apoio.
+    - `--bg-accent-dark: #3A171C`: Vinho/Marrom nobre profundo aplicado exclusivamente na faixa de citação/manifesto, seção de FAQ e nos botões primários.
+    - `--bg-footer: #14181D`: Cinza chumbo escuro refinado para o rodapé institucional.
+    - `--text-primary: #1E1315`: Quase preto com subtom quente para títulos e leitura de alto contraste (índice > 14.5:1).
+    - `--text-secondary: #594A4E`: Cinza/marrom médio para parágrafos de apoio e legendas com contraste superior a 5.5:1.
+    - `--text-on-dark: #FAF6F0`: Texto luminoso para máxima legibilidade sobre fundos escuros.
+    - `--accent-gold: #9E7B56`: Dourado sóbrio para detalhes, badges, ícones e palavras-chave em destaque.
+    - `--border-subtle: #EAE3D9`: Bordas finas de 1px nos cards e divisores.
+  - **Tipografia e Hierarquia Editorial**:
+    - Títulos (`h1`, `h2`) e números estatísticos configurados exclusivamente em fonte serif (*Playfair Display* / *Cormorant Garamond*, pesos 500 e 600).
+    - Ênfase controlada em `em` limitada a 1 ou 2 palavras-chave por título em itálico com dourado sóbrio.
+    - Corpo de texto (`p`), menu, subtítulos de cards (`h3`, `h4`), botões, filtros, inputs e FAQ padronizados em *Plus Jakarta Sans* (`1rem`, `line-height: 1.6`, `max-width: 65ch`).
+  - **Padronização de Componentes**:
+    - **Card Padrão**: Fundo `#FFFFFF`, borda `1px solid #EAE3D9`, cantos de `12px`, padding de `24px`, sombra `0 4px 12px rgba(0,0,0,0.03)` com elevação tátil no hover (`translateY(-2px)` e realce sutil em borda dourada).
+    - **Botões Primários (CTAs)**: Formato pílula (`border-radius: 9999px`), preenchimento `#3A171C`, texto branco, padding `12px 24px/28px`, hover clareando suavemente para `#52232A`.
+    - **Tags / Pílulas de Filtro (FAQ)**: Formato pílula, borda `1px solid rgba(250, 246, 240, 0.25)`, texto claro, ativa com fundo `#9E7B56` e texto branco.
+    - **Faixa de Citação/Manifesto**: Fundo vinho com gradiente cinematográfico fundido com imagem de escritório jurídico com lâmpada clássica e mesa de mogno (`office-manifesto-bg.webp`).
+  - **Preservação de Conteúdo & Integridade**:
+    - 100% dos textos reais, dados de OAB, estatísticas, telefones, links do WhatsApp, mapa, fotos reais e vídeos de reels preservados.
+  - **Qualidade, Blindagem por Testes & Build**:
+    - **22/22 testes aprovados** no Vitest (`pnpm test`).
+    - TypeScript 100% verificado (`tsc --noEmit`).
+    - Build de produção compilado com sucesso em 3.59s com otimização WebP de imagens.
+    - Servidor local ativo em `http://localhost:5173/`.
 
 - **Ativação Padrão do Selo Sólido de Autoridade no Mobile (`Seção 01 — Presença em Números`)**:
   - **Sensibilidade de UX Touch Mobile Implementada**:
@@ -416,19 +850,17 @@
     - Build de produção compilado em 2.96s com 55% de economia em imagens.
 
 ## ⚙️ Estado Atual
-- **Compilação**: ✅ Sucesso total (`npm run build` gerado em 3.44s com 55% de economia em assets).
+- **Compilação**: ✅ Sucesso total (`npm run build` gerado em 3.05s com 57% de otimização em imagens).
 - **TypeScript**: ✅ 100% limpo (`tsc --noEmit` sem erros ou avisos).
-- **Testes**: ✅ **22/22 testes aprovados** (`vitest run`).
+- **Testes**: ✅ **24/24 testes aprovados** (`vitest run`).
 - **Servidor Local**: ✅ Ativo e respondendo em tempo real em `http://localhost:5173/`.
-- **Toda a Home Page (Seções 01 a 06)**: ✅ **100% Concluída e Lapidada**. Cadência editorial pura, ausência total de "bento grid" genérico de IA, responsividade mobile-first irretocável em cada seção, e fluxos de atendimento/conversão de alta autoridade para WhatsApp.
-- **Git & GitHub**: ✅ **Sincronizado**. Commit `db96350` enviado com sucesso para `origin/main`.
-- **Árvore de Trabalho**: Limpa, segura e testada.
+- **Simetria Mobile da Seção 01**: ✅ **100% Concluída** (Eliminação definitiva da linha vertical residual nos cards empilhados via neutralização de `border-right`).
+- **Preservação Canônica**: ✅ Rigorosamente mantidos os OABs (Dra. Karlla 40.209, Dra. Keyteler 40.642), sede física em Salinópolis e telefone oficial (91) 9162-0280.
+- **Git & GitHub**: ✅ Pronto para commit.
 
 ## 🎯 Próximos Passos Imediatos
-- Lapidar e revisar a **Página Dedicada de Serviços Previdenciários (`/servicos-previdenciarios-salinopolis`)**:
-  - Verificar harmonia editorial dos cards de catálogo e drawer/modais internos.
-  - Alinhar detalhes de SEO local e chamadas de ação contextuais.
-  - Testar fluxos em dispositivos físicos ou emuladores adicionais.
+- Acompanhar a visualização no navegador local em `http://localhost:5173/` conferindo a simetria horizontal limpa dos 3 cards de números no mobile.
+- Prosseguir com novos refinamentos conforme direcionamento do cliente.
 
 
 

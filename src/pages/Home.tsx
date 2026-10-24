@@ -28,6 +28,7 @@ import {
   Anchor,
   Clock,
   ShieldAlert,
+  ShieldCheck,
   HeartPulse,
   Scale,
   Search,
@@ -52,6 +53,10 @@ const HERO_SLIDES = [
     image: `${ASSET_BASE}karlla-pinheiro-hero.webp`,
     fallback: `${ASSET_BASE}karlla-pinheiro-hero.jpg`,
     alt: "Retrato institucional da Dra. Karlla Pinheiro, em composição vinho e dourado.",
+    name: "Dra. Karlla Pinheiro",
+    role: "Sócia Fundadora",
+    oab: "OAB/PA 40.209",
+    specialty: "Estratégia Previdenciária & Planejamento de CNIS",
     caption: "Dra. Karlla Pinheiro",
   },
   {
@@ -59,6 +64,10 @@ const HERO_SLIDES = [
     image: `${ASSET_BASE}keyteler-leite-hero.webp`,
     fallback: `${ASSET_BASE}keyteler-leite-hero.jpg`,
     alt: "Retrato institucional da Dra. Keyteler Leite, em composição vinho e dourado.",
+    name: "Dra. Keyteler Leite",
+    role: "Sócia Titular",
+    oab: "OAB/PA 40.642",
+    specialty: "Atuação Rural & Pesca Artesanal",
     caption: "Dra. Keyteler Leite",
   },
 ] as const;
@@ -72,11 +81,11 @@ const navItems = [
 ];
 
 const FAQ_CATEGORIES = [
-  { id: "todos", label: "Todas as dúvidas" },
-  { id: "aposentadoria", label: "Aposentadorias & Transição" },
-  { id: "maternidade", label: "Salário-maternidade" },
-  { id: "defeso", label: "Seguro-defeso & Rural" },
-  { id: "incapacidade", label: "Incapacidade & BPC/LOAS" },
+  { id: "todos", label: "Todas" },
+  { id: "aposentadoria", label: "Aposentadorias" },
+  { id: "maternidade", label: "Salário-Maternidade" },
+  { id: "defeso", label: "Seguro-Defeso & Rural" },
+  { id: "incapacidade", label: "Incapacidade & BPC" },
   { id: "atendimento", label: "Negativas & Atendimento" },
 ];
 
@@ -166,17 +175,38 @@ const practiceCardsData = [
   },
   {
     serviceId: "bpc-loas",
-    title: "Outros serviços jurídicos",
+    title: "BPC / LOAS",
     icon: Scale,
-    badge: "BPC / LOAS & Revisões",
-    description: "Benefício assistencial para idosos ou PcD de baixa renda, além de recursos administrativos e revisão de cálculos.",
-    whatsappText: "Olá! Gostaria de orientações sobre BPC/LOAS ou revisão de benefício previdenciário.",
+    badge: "Idosos (65+) & PcD",
+    description: "Benefício assistencial de um salário mínimo para idosos a partir de 65 anos ou pessoas com deficiência, sem exigência de contribuições prévias ao INSS.",
+    whatsappText: "Olá! Gostaria de orientações sobre BPC/LOAS para idoso ou pessoa com deficiência.",
   },
 ];
 
 function scrollToTop(event: React.MouseEvent<HTMLAnchorElement>) {
   event.preventDefault();
   window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function highlightSearchMatch(text: string, query: string): React.ReactNode {
+  const trimmed = query.trim();
+  if (!trimmed) return text;
+
+  const escaped = trimmed.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const regex = new RegExp(`(${escaped})`, "gi");
+  const parts = text.split(regex);
+
+  if (parts.length <= 1) return text;
+
+  return parts.map((part, i) =>
+    regex.test(part) ? (
+      <mark key={i} className="faq-search-highlight">
+        {part}
+      </mark>
+    ) : (
+      part
+    )
+  );
 }
 
 export default function Home() {
@@ -187,7 +217,34 @@ export default function Home() {
   const [faqCategory, setFaqCategory] = useState("todos");
   const [activePracticeIndex, setActivePracticeIndex] = useState(0);
   const [selectedService, setSelectedService] = useState<DetailedService | null>(null);
+  const [showFloatGreeting, setShowFloatGreeting] = useState(false);
   const practiceCarouselRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    try {
+      const isDismissed = sessionStorage.getItem("kk_dismiss_float_greeting");
+      if (isDismissed) return;
+
+      const timer = window.setTimeout(() => {
+        setShowFloatGreeting(true);
+      }, 4000);
+
+      return () => window.clearTimeout(timer);
+    } catch {
+      // sessionStorage pode falhar em ambientes com restrições
+    }
+  }, []);
+
+  const handleDismissFloatGreeting = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowFloatGreeting(false);
+    try {
+      sessionStorage.setItem("kk_dismiss_float_greeting", "true");
+    } catch {
+      // ignore
+    }
+  };
 
   const scrollToPracticeSlide = (index: number) => {
     const clampedIndex = Math.max(0, Math.min(practiceCardsData.length - 1, index));
@@ -310,12 +367,12 @@ export default function Home() {
           <div className="hero-texture" aria-hidden="true" />
           <div className="site-container hero-grid">
             <div className="hero-copy" data-reveal>
-              <p className="eyebrow">Advocacia previdenciária · SALINÓPOLIS - PA</p>
+              <p className="eyebrow">Advocacia Previdenciária · Salinópolis &amp; Brasil</p>
               <h1>
                 Direitos bem orientados começam com <em>escuta.</em>
               </h1>
               <p className="hero-lead hero-lead-national">
-                <span>Orientação jurídica especializada, linguagem acessível e rigor técnico para proteger o seu benefício. Atendimento presencial em Salinópolis e consultoria em todo o Brasil.</span>
+                <span>Orientação jurídica especializada, linguagem acessível e rigor técnico na defesa do seu benefício perante o INSS e a Justiça Federal.</span>
               </p>
               <div className="hero-actions">
                 <SiteButton href={WHATSAPP_URL} target="_blank" rel="noreferrer" variant="primary">
@@ -324,9 +381,6 @@ export default function Home() {
                 <a className="text-link text-link-light" href="#sobre">
                   Conhecer a sociedade <ArrowDownRight size={16} aria-hidden="true" />
                 </a>
-                <p className="hero-contact-note">
-                  <Phone size={14} aria-hidden="true" /> WhatsApp e telefone: {PHONE_DISPLAY}
-                </p>
               </div>
             </div>
 
@@ -349,11 +403,20 @@ export default function Home() {
                   aria-label="Retratos das advogadas"
                 >
                   <CarouselContent className="hero-carousel-track">
-                    {HERO_SLIDES.map((slide) => (
+                    {HERO_SLIDES.map((slide, index) => (
                       <CarouselItem className="hero-carousel-item" key={slide.id}>
                         <picture>
                           <source srcSet={slide.image} type="image/webp" />
-                          <img className="hero-image" src={slide.fallback} alt={slide.alt} width="1122" height="1402" decoding="async" />
+                          <img
+                            className="hero-image"
+                            src={slide.fallback}
+                            alt={slide.alt}
+                            width="1122"
+                            height="1402"
+                            decoding="async"
+                            fetchPriority={index === 0 ? "high" : "low"}
+                            loading={index === 0 ? "eager" : "lazy"}
+                          />
                         </picture>
                       </CarouselItem>
                     ))}
@@ -374,16 +437,31 @@ export default function Home() {
                   </div>
                 </Carousel>
               </div>
-              <div className="hero-image-caption" aria-live="polite">
-                <span>{String(activeHeroSlide + 1).padStart(2, "0")}</span>
-                <span>Retrato institucional · {HERO_SLIDES[activeHeroSlide]?.caption ?? HERO_SLIDES[0].caption}</span>
+
+              {/* Assinatura Minimalista de Luxo: Apenas o Nome com Micro-Linha Ouro */}
+              <div className="hero-signature-wrap" aria-live="polite">
+                <p className="hero-signature-name">
+                  {HERO_SLIDES[activeHeroSlide]?.caption ?? HERO_SLIDES[0].name}
+                </p>
+                <span className="hero-signature-line" aria-hidden="true" />
               </div>
             </div>
           </div>
           <div className="hero-bottom-note site-container" data-reveal style={{ transitionDelay: "260ms" }}>
-            <span>Atendimento próximo</span>
-            <span>Salinópolis / PA</span>
-            <span>Atuação nacional</span>
+            <span className="hero-trust-item">
+              <ShieldCheck size={14} aria-hidden="true" />
+              <span>Atendimento Dedicado</span>
+            </span>
+            <span className="hero-trust-divider" aria-hidden="true">✦</span>
+            <span className="hero-trust-item">
+              <MapPin size={14} aria-hidden="true" />
+              <span>Sede Física em Salinópolis - PA</span>
+            </span>
+            <span className="hero-trust-divider" aria-hidden="true">✦</span>
+            <span className="hero-trust-item">
+              <Scale size={14} aria-hidden="true" />
+              <span>Atuação Previdenciária Nacional</span>
+            </span>
           </div>
         </section>
 
@@ -563,6 +641,19 @@ export default function Home() {
                     <p className="practice-card-desc">{card.description}</p>
                     
                     <div className="practice-card-footer-actions">
+                      <a
+                        className="practice-card-action"
+                        href={waUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        title={`Conversar sobre ${card.title} no WhatsApp`}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <MessageCircle size={15} aria-hidden="true" />
+                        <span>Consultar meu direito neste benefício</span>
+                        <ArrowUpRight size={13} aria-hidden="true" />
+                      </a>
+
                       <button
                         type="button"
                         className="practice-card-detail-trigger"
@@ -576,17 +667,6 @@ export default function Home() {
                         <span>Ver detalhes e requisitos</span>
                         <ArrowUpRight size={13} aria-hidden="true" />
                       </button>
-
-                      <a
-                        className="practice-card-action"
-                        href={waUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        title={`Conversar sobre ${card.title} no WhatsApp`}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        Consultar meu direito neste benefício <ArrowUpRight size={14} aria-hidden="true" />
-                      </a>
                     </div>
                   </article>
                 );
@@ -677,10 +757,6 @@ export default function Home() {
                     decoding="async"
                     className="team-portrait-img"
                   />
-                </div>
-                <div className="team-portrait-caption">
-                  <p className="team-caption-title">Retrato Institucional das Sócias</p>
-                  <p className="team-caption-sub">Dra. Karlla Pinheiro &amp; Dra. Keyteler Leite · Sede Salinópolis / PA</p>
                 </div>
               </div>
 
@@ -796,11 +872,11 @@ export default function Home() {
                           <span className="faq-question-num" aria-hidden="true">
                             {String(index + 1).padStart(2, "0")}
                           </span>
-                          <span className="faq-question-text">{item.question}</span>
+                          <span className="faq-question-text">{highlightSearchMatch(item.question, faqSearch)}</span>
                         </div>
                       </AccordionTrigger>
                       <AccordionContent className="faq-answer">
-                        <p className="faq-answer-text">{item.answer}</p>
+                        <p className="faq-answer-text">{highlightSearchMatch(item.answer, faqSearch)}</p>
                         <a
                           className="faq-whatsapp-link"
                           href={`https://wa.me/${PHONE_TEL.replace(/\D/g, "")}?text=${encodeURIComponent(`Olá, Dra. Karlla e Dra. Keyteler! Li no site a dúvida sobre "${item.question}" e gostaria de uma orientação jurídica para o meu caso.`)}`}
@@ -907,10 +983,12 @@ export default function Home() {
                     <div className="address-content">
                       <strong>Onde estamos</strong>
                       <address>Avenida Modesto da Encarnação Rodrigues, 756 — Bom Jesus<br />Salinópolis — PA, 68721-000</address>
-                      <a href={GOOGLE_MAPS_URL} target="_blank" rel="noreferrer" className="map-action-link">
-                        <span>Abrir no Google Maps</span>
-                        <ArrowUpRight size={14} aria-hidden="true" />
-                      </a>
+                      <div className="location-action-pills">
+                        <a href={GOOGLE_MAPS_URL} target="_blank" rel="noreferrer" className="map-action-link">
+                          <span>Google Maps</span>
+                          <ArrowUpRight size={14} aria-hidden="true" />
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -923,6 +1001,29 @@ export default function Home() {
           </div>
         </section>
       </main>
+
+      {showFloatGreeting && (
+        <div className="whatsapp-float-greeting" role="status" aria-live="polite">
+          <button
+            type="button"
+            className="whatsapp-float-greeting-close"
+            onClick={handleDismissFloatGreeting}
+            aria-label="Fechar mensagem de WhatsApp"
+          >
+            <X size={13} aria-hidden="true" />
+          </button>
+          <a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="whatsapp-float-greeting-link"
+          >
+            <span className="whatsapp-float-greeting-title">Dúvidas sobre o seu benefício?</span>
+            <span className="whatsapp-float-greeting-desc">Fale diretamente com as advogadas titulares.</span>
+          </a>
+          <span className="whatsapp-float-greeting-tail" aria-hidden="true" />
+        </div>
+      )}
 
       <a
         className="whatsapp-float"

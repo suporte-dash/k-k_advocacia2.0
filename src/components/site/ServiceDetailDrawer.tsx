@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowUpRight,
   Check,
@@ -24,6 +24,18 @@ export default function ServiceDetailDrawer({
   onSelectService,
 }: ServiceDetailDrawerProps) {
   const drawerRef = useRef<HTMLDivElement | null>(null);
+  const [checkedDocs, setCheckedDocs] = useState<string[]>([]);
+
+  // Limpa documentos selecionados ao alternar entre serviços
+  useEffect(() => {
+    setCheckedDocs([]);
+  }, [service?.id]);
+
+  const toggleDoc = (doc: string) => {
+    setCheckedDocs((prev) =>
+      prev.includes(doc) ? prev.filter((d) => d !== doc) : [...prev, doc]
+    );
+  };
 
   // Fecha no Esc e bloqueia scroll de fundo
   useEffect(() => {
@@ -48,8 +60,13 @@ export default function ServiceDetailDrawer({
   if (!service) return null;
 
   const Icon = service.icon;
+  const customMessage =
+    checkedDocs.length > 0
+      ? `Olá, Dras. Karlla e Keyteler! Gostaria de consultar sobre ${service.title}. Já possuo os seguintes documentos: ${checkedDocs.join(", ")}.`
+      : service.whatsappMessage;
+
   const waUrl = `https://wa.me/${PHONE_TEL.replace(/\D/g, "")}?text=${encodeURIComponent(
-    service.whatsappMessage
+    customMessage
   )}`;
 
   return (
@@ -123,19 +140,42 @@ export default function ServiceDetailDrawer({
             </ul>
           </div>
 
-          {/* Documentos recomendados */}
+          {/* Documentos recomendados interativos */}
           <div className="service-drawer-subblock">
             <h3 className="service-drawer-subblock-title">
               <FileText size={16} aria-hidden="true" />
-              <span>Documentos essenciais recomendados para a consulta:</span>
+              <span>Documentos recomendados (marque os que já possui):</span>
             </h3>
-            <ul className="service-drawer-checklist">
-              {service.recommendedDocuments.map((doc, idx) => (
-                <li key={idx}>
-                  <Check size={14} className="service-drawer-check-icon" aria-hidden="true" />
-                  <span>{doc}</span>
-                </li>
-              ))}
+            <p className="service-drawer-check-hint">
+              {checkedDocs.length > 0
+                ? `${checkedDocs.length} de ${service.recommendedDocuments.length} documento(s) selecionado(s) para incluir na sua mensagem.`
+                : "Selecione os documentos que você já tem em mãos para incluirmos na conversa pelo WhatsApp."}
+            </p>
+            <ul className="service-drawer-checklist service-drawer-doc-checklist">
+              {service.recommendedDocuments.map((doc, idx) => {
+                const isChecked = checkedDocs.includes(doc);
+                return (
+                  <li
+                    key={idx}
+                    className={`service-drawer-check-item ${isChecked ? "is-checked" : ""}`}
+                    onClick={() => toggleDoc(doc)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        toggleDoc(doc);
+                      }
+                    }}
+                    role="checkbox"
+                    aria-checked={isChecked}
+                    tabIndex={0}
+                  >
+                    <span className={`service-drawer-checkbox ${isChecked ? "is-checked" : ""}`}>
+                      {isChecked && <Check size={12} strokeWidth={3} aria-hidden="true" />}
+                    </span>
+                    <span className="service-drawer-doc-text">{doc}</span>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
@@ -168,7 +208,11 @@ export default function ServiceDetailDrawer({
             aria-label={`Tirar dúvida no WhatsApp sobre ${service.title}`}
           >
             <MessageCircle size={18} aria-hidden="true" />
-            <span className="service-drawer-cta-text">Tirar dúvida sobre este benefício no WhatsApp</span>
+            <span className="service-drawer-cta-text">
+              {checkedDocs.length > 0
+                ? `Enviar com ${checkedDocs.length} documento(s) marcado(s)`
+                : "Tirar dúvida sobre este benefício no WhatsApp"}
+            </span>
             <ArrowUpRight size={16} aria-hidden="true" />
           </a>
           <span className="service-drawer-footer-hint">
