@@ -1,6 +1,11 @@
 # PROJECT_STATE — Karlla Pinheiro & Keyteler Leite Advogadas
 
 ## 📌 Onde parámos
+- **Vinculação e Sincronização com o Novo Repositório GitHub (`k-k_advocacia2.0`)**:
+  - **Novo Remote Oficial**: `origin` atualizado de `k-k_advocacia` para `https://github.com/suporte-dash/k-k_advocacia2.0.git`.
+  - **Sincronização Completa**: Realizado `git push -u origin main` com sucesso absoluto, publicando todo o histórico, assets e código 2.0.
+  - **Rastreamento**: Branch local `main` configurada para rastrear `origin/main` no novo repositório.
+
 - **Criação & Configuração Global do Agente LS Critical**:
   - **Definição de Subagente (`define_subagent`)**: Registrado `agente_ls_critical` com autonomia total, ferramentas de escrita/execução, MCP e subagentes.
   - **Regra de Projeto (`.agents/rules/agente-ls-critical.md`)**: Configurado no repositório com prioridade P0 e trigger always-on.
