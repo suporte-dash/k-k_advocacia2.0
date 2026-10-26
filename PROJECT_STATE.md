@@ -1,6 +1,17 @@
 # PROJECT_STATE — Karlla Pinheiro & Keyteler Leite Advogadas
 
 ## 📌 Onde parámos
+- **Correção da Tela Branca e Publicação no GitHub Pages (`k-k_advocacia2.0`)**:
+  - **Diagnóstico da Causa Raiz**:
+    1. O workflow antigo apontava para `VITE_BASE_PATH: /k-k_advocacia/` em vez do novo repositório `/k-k_advocacia2.0/`, gerando erro 404 em todos os assets (JS/CSS).
+    2. O GitHub Pages por padrão tenta servir a branch `main` não compilada com processamento Jekyll, que não reconhece o bundle Vite nem arquivos com underscore sem o `.nojekyll`.
+  - **Correções Aplicadas**:
+    - `vite.config.ts`: Base de produção atualizada com fallback seguro para `/k-k_advocacia2.0/`.
+    - `.github/workflows/deploy-pages.yml`: Atualizado para `VITE_BASE_PATH: /k-k_advocacia2.0/`.
+    - `public/.nojekyll`: Criado para desabilitar o Jekyll do GitHub Pages.
+    - Branch `gh-pages`: Compilada e publicada no repositório remoto com o bundle pronto para uso imediato.
+  - **Sincronização**: Commits enviados para `main` e branch `gh-pages` ativa no GitHub.
+
 - **Vinculação e Sincronização com o Novo Repositório GitHub (`k-k_advocacia2.0`)**:
   - **Novo Remote Oficial**: `origin` atualizado de `k-k_advocacia` para `https://github.com/suporte-dash/k-k_advocacia2.0.git`.
   - **Sincronização Completa**: Realizado `git push -u origin main` com sucesso absoluto, publicando todo o histórico, assets e código 2.0.
